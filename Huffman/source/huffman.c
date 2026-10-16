@@ -56,7 +56,7 @@ unsigned int binario_para_unsigned_int(char *texto, int quantidade_bits){
     return soma;
 }
 
-int main(int argc, char *argv[]){ // EX: ./argumentos.exe arquivo02.png | argc = 2 e argv[2] = {"C:\Users\...\argumentos.exe", "arquivo02.png"}
+int main(int argc, char *argv[]){ // EX: ./argumentos.exe arquivo02.png => argc = 2 e argv[2] = {"C:\Users\...\argumentos.exe", "arquivo02.png"}
 
     if(argc < 2){ // Pra caso tentar executar sem passar pelo menos um arquivo retorna erro
 
@@ -91,6 +91,8 @@ int main(int argc, char *argv[]){ // EX: ./argumentos.exe arquivo02.png | argc =
         inicializar_arvore(&arv_huffman);
 
         if(strstr(argv[i], ".huff")){ // se .huff descompactar
+
+            printf("Descompactando arquivo: %s\n", argv[i]);
 
             int tam_arv = 0; // Guardar tamanho da arvore
             int trash = 0; // Guardar lixo
@@ -172,14 +174,32 @@ int main(int argc, char *argv[]){ // EX: ./argumentos.exe arquivo02.png | argc =
             // ==== FIM =====================================================================================
 
             // ==== INICIO ======================== DESCOMPACTANDO TEXTO E GERAR ARQUIVO =============================
+            
+            char base[256] = {0};
+            char nome_saida[512] = {0};
 
-            FILE *saida = fopen("../Saida/arquivo02.png", "wb");
+            strncpy(base, argv[i], (strlen(argv[i]) - strlen(strstr(argv[i], ".")))); // ex: se argv[i] = arquivo.png || base = arquivo
+
+            base[strlen(base)] = '\0';
+
+            sprintf(nome_saida, "../Saida/%s.png", base); // se base = arquivo || nome_saida = Saida/arquivo.png
+
+            FILE *saida = fopen(nome_saida, "wb");
+
+            if (saida == NULL) {
+                perror("Erro ao criar arquivo de saida");
+                return 1;
+            }
 
             escrever_arquivo_descompactado(texto_comprimido, arv_huffman.raiz, trash, saida);
 
             // ==== FIM =====================================================================================
 
+            printf("Arquivo descompactado com sucesso: %s\n", nome_saida);
+
         } else { // compactar
+
+            printf("Compactando arquivo: %s\n", argv[i]);
 
             // ==== INICIO ======================== FREQUENCIA DE CADA BYTE ==================================
 
@@ -263,9 +283,8 @@ int main(int argc, char *argv[]){ // EX: ./argumentos.exe arquivo02.png | argc =
 
             // ==== INICIO ======================== GERAR O ARQUIVO COMPACTADO ================================
 
-            char nome_saida[150];
-
-            char base[100]; 
+            char base[256] = {0};
+            char nome_saida[512] = {0};
 
             strncpy(base, argv[i], (strlen(argv[i]) - strlen(strstr(argv[i], ".")))); // ex: se argv[i] = arquivo.png || base = arquivo
 
@@ -275,9 +294,16 @@ int main(int argc, char *argv[]){ // EX: ./argumentos.exe arquivo02.png | argc =
 
             FILE *saida = fopen(nome_saida, "wb");
 
+            if (saida == NULL) {
+                perror("Erro ao criar arquivo de saida");
+                return 1;
+            }
+
             escrever_arquivo_compactado(saida, trash, arv_huffman.tam_arvore, arv_huffman.raiz, texto_compactado, tam_texto);
 
             // ==== FIM =====================================================================================
+
+            printf("Arquivo compactado com sucesso: %s\n", nome_saida);
 
             trash = 0;
             tam_texto = 0;
