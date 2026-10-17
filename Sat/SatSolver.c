@@ -18,9 +18,7 @@ typedef struct {
 // Estado das variáveis: 1 (TRUE), 0 (FALSE), -1 (INDEFINIDO)
 int interpretacao[MAX_VARIAVEIS + 1];
 
-// ==============================================================================
 // 1. LEITURA DO ARQUIVO DIMACS (.cnf)
-// ==============================================================================
 bool carregar_dimacs_cnf(const char* caminho_arquivo, FormulaCNF* f) {
     FILE* file = fopen(caminho_arquivo, "r");
     if (!file) {
@@ -66,9 +64,8 @@ bool carregar_dimacs_cnf(const char* caminho_arquivo, FormulaCNF* f) {
     return true;
 }
 
-// ==============================================================================
 // 2. AVALIAÇÃO DA FÓRMULA (I => F  ou  I => ~F)
-// ==============================================================================
+
 // Retorna:
 //  1: Todas as clausulas satisfeitas (SAT)
 //  0: Pelo menos uma clausula falsa (PODA por contradicao)
@@ -118,9 +115,8 @@ void imprimir_indentacao(int nivel) {
     }
 }
 
-// ==============================================================================
 // 3. SAT SOLVER RECURSIVO (Árvore de Decisão Binária com Poda e Backtracking)
-// ==============================================================================
+
 bool sat_solver(FormulaCNF* f, int nivel) {
     int status = avalia_formula(f);
 
@@ -166,9 +162,8 @@ bool sat_solver(FormulaCNF* f, int nivel) {
     return false;
 }
 
-// ==============================================================================
 // 4. FUNÇÃO PRINCIPAL
-// ==============================================================================
+
 int main(int argc, char* argv[]) {
     char nome_arquivo[256];
     FormulaCNF formula;
