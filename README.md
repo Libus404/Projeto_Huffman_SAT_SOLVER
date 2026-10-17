@@ -22,9 +22,9 @@ Este repositório reune as quatro entregas desenvolvidas para a disciplina de Es
 - Cada entrega está organizada em sua respectiva pasta.
   
 - ## Alunos:
-- Jean Felipe Duarte Tenório
+- 
 - Gustavo Romain Batista Carvalho
-- Caio Vinicius Figueiredo de Lima
+- 
 
 ## Instruções Gerais
 
