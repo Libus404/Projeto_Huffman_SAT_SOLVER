@@ -2,7 +2,7 @@
 #define HUFFMAN_H_INCLUDED
 
 typedef struct no_huffman{
-    unsigned char byte;
+    void *byte;
     unsigned int frequencia;
     struct no_huffman *esquerda;
     struct no_huffman *direita;
@@ -37,13 +37,13 @@ void escrever_arvore_no_arquivo(NO_HUFFMAN *no_arvore, FILE *saida);
 
 int altura_arvore(NO_HUFFMAN *raiz);
 
-// Funções de converção (unsigned int para binario) e (binario para usigned int)
+// FunÃ§Ãµes de conversÃ£o (unsigned int para binario) e (binario para usigned int)
 
 char* converte_para_binario(unsigned int num, int tam);
 
 unsigned int binario_para_unsigned_int(char *texto, int quantidade_bits);
 
-// ========== Função para inserir byte a byte no arquivo ===================
+// ========== FunÃ§Ã£o para inserir byte a byte no arquivo ===================
 
 void inserir_bytes_no_arquivo(char *texto, int quantidade_bits, FILE *saida);
 

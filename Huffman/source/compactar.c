@@ -26,7 +26,7 @@ void inserir_na_lista_ordenado(LISTA *l, unsigned char valor_byte, unsigned int 
         
         if(novo->sub_arvore){
 
-            novo->sub_arvore->byte = valor_byte;
+            novo->sub_arvore->byte = (void*)(valor_byte);
             novo->sub_arvore->frequencia = valor_frequencia;
             novo->sub_arvore->direita = NULL;
             novo->sub_arvore->esquerda = NULL;
@@ -78,7 +78,7 @@ NO_HUFFMAN* remover_do_inicio(LISTA *l){
 
 void criar_arvore_huffman(LISTA *l, ARVORE *a){
 
-    if(l->inicio == NULL) return; // Lista vazia não retorna nada
+    if(l->inicio == NULL) return; // Lista vazia nÃ£o retorna nada
 
     NO_LISTA *aux_lista = NULL; 
 
@@ -95,7 +95,7 @@ void criar_arvore_huffman(LISTA *l, ARVORE *a){
 
         if(aux_lista->sub_arvore->esquerda == NULL || aux_lista->sub_arvore->direita == NULL){
 
-            perror("Erro ao remover nós da lista");
+            perror("Erro ao remover nÃ³s da lista");
             return;
         }
 
@@ -115,18 +115,18 @@ void escrever_arvore_no_arquivo(NO_HUFFMAN *no_arvore, FILE *saida){
 
     if(no_arvore == NULL) return; // Caso arvore esteja vazia
 
-    if(no_arvore->esquerda == NULL && no_arvore->direita == NULL){ // Verifica se o NO é folha, NO folha: NO esquerdo e NO direito estão vazios 
-        // É uma folha
-        if(no_arvore->byte == '*' || no_arvore->byte == '\\'){
+    if(no_arvore->esquerda == NULL && no_arvore->direita == NULL){ // Verifica se o NO Ã© folha, NO folha: NO esquerdo e NO direito estÃ£o vazios 
+        // Ã‰ uma folha
+        if((unsigned char*)(no_arvore->byte) == '*' || (unsigned char*)(no_arvore->byte) == '\\'){
             fputc('\\', saida);
-            fputc(no_arvore->byte, saida);
+            fputc((int)((unsigned char*)(no_arvore->byte)), saida);
             
         } else {
 
-            fputc(no_arvore->byte, saida);
+            fputc((int)((unsigned char*)(no_arvore->byte)), saida);
         }
     } else {
-        // Nó interno
+        // NO interno
         fputc('*', saida);
         escrever_arvore_no_arquivo(no_arvore->esquerda, saida);
         escrever_arvore_no_arquivo(no_arvore->direita, saida);
@@ -193,11 +193,11 @@ char** aloca_tabela(int colunas){ // alloca memoria para tabela | colunas = altu
 
 void gerar_tabela(NO_HUFFMAN *no_arvore, char **tabela, char *caminho, int colunas){     
 
-    if(no_arvore->esquerda == NULL && no_arvore->direita == NULL){ // Verifica se o NO é folha, NO folha: NO esquerdo e NO direito estão vazios 
-        // É uma folha
-        strcpy(tabela[no_arvore->byte], caminho); // copia o caminho para id do byte 
+    if(no_arvore->esquerda == NULL && no_arvore->direita == NULL){ // Verifica se o NO Ã© folha, NO folha: NO esquerdo e NO direito estÃ£o vazios 
+        // Ã‰ uma folha
+        strcpy(tabela[((int)(unsigned char*)(no_arvore->byte))], caminho); // copia o caminho para id do byte 
     } else {
-        // Nó interno
+        // NO interno
 
         char esquerda[colunas]; // colunas = altura_arvore
         char direita[colunas];
@@ -227,7 +227,7 @@ void liberar_tabela(char **tabela) {
 
 void escrever_arquivo_compactado(FILE *saida, int trash, unsigned int tam_arvore, NO_HUFFMAN *raiz, char *texto, unsigned int quant_bits_texto){
 
-    char *bits_trash_mais_tam_arv = malloc(17 * sizeof(char)); // 3 bits para o lixo + 13 bits para tamanho da arvore | 16 bits = 2 bytes || 1 espaço para '\0'
+    char *bits_trash_mais_tam_arv = malloc(17 * sizeof(char)); // 3 bits para o lixo + 13 bits para tamanho da arvore | 16 bits = 2 bytes || 1 espaï¿½o para '\0'
     bits_trash_mais_tam_arv[0] = '\0';
 
     char *bits_lixo_03 = converte_para_binario(trash, 3);

@@ -290,7 +290,7 @@ int main(int argc, char *argv[]){ // EX: ./argumentos.exe arquivo02.png => argc 
 
             base[strlen(base)] = '\0';
 
-            sprintf(nome_saida, "../Saida/%s.huff", base); // se base = arquivo || nome_saida = Saida/arquivo.huff
+            sprintf(nome_saida, "../Saida/%s.huff", base); // Se base = arquivo || nome_saida = Saida/arquivo.huff
 
             FILE *saida = fopen(nome_saida, "wb");
 
