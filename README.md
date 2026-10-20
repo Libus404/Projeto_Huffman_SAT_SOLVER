@@ -22,9 +22,9 @@ Este repositório reune as quatro entregas desenvolvidas para a disciplina de Es
 - Cada entrega está organizada em sua respectiva pasta.
   
 - ## Alunos:
-- 
+- Miguel
 - Gustavo Romain Batista Carvalho
-- 
+- Hércules
 
 ## Instruções Gerais
 
